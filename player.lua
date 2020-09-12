@@ -26,34 +26,46 @@ function playerUpdate()
 
   player.collision = 0
   for i=1, #map do
-    if
-    (player.y + player.size * 1.5 > map[i][3] and player.y - player.size * 1.5 < map[i][3] + map[i][5])
-    and
-    (player.x + player.size > map[i][2] and player.x - player.size < map[i][4]+map[i][2])
-    then
-      player.collision = 1
-    	if (player.x - player.xV + player.size > map[i][2] and player.x - player.xV - player.size < map[i][4]+map[i][2]) then
-	      player.y = player.y - player.yV
-	      player.yV = -player.yV*0.3
-	      
-	      --if player.y < map[i][2] then 
-	      	player.collision = 2
-	      --else
-	      	--player.collision = -1
-	      --end
-    	end
-    	player.y = player.y - 5
-    	if (player.y - player.yV + player.size * 1.5 > map[i][3] and player.y - player.yV - player.size * 1.5 < map[i][3] + map[i][5]) then
-	      player.x = player.x -player.xV
-	      player.xV = -player.xV*0.3
-	      if player.collision == 2 then
-	      	player.collision = 4
-	      end
-	      player.collision = 3
-	      
-    	end
-    	player.y = player.y + 5
-    end
+	  if map[i][1] == "ground" then
+	    if
+	    (player.y + player.size * 1.5 > map[i][3] and player.y - player.size * 1.5 < map[i][3] + map[i][5])
+	    and
+	    (player.x + player.size > map[i][2] and player.x - player.size < map[i][4]+map[i][2])
+	    then
+	      player.collision = 1
+	    	if (player.x - player.xV + player.size > map[i][2] and player.x - player.xV - player.size < map[i][4]+map[i][2]) then
+		      if player.yV > 0 then 
+		      	player.collision = 2
+		      else
+		      	player.collision = -1
+		      end
+		      player.y = player.y - player.yV
+		      player.yV = -player.yV*0.3
+	    	end
+	    	player.y = player.y - 5
+	    	if (player.y - player.yV + player.size * 1.5 > map[i][3] and player.y - player.yV - player.size * 1.5 < map[i][3] + map[i][5]) then
+		      player.x = player.x -player.xV
+		      player.xV = -player.xV*0.3
+		      if player.collision == 2 then
+		      	player.collision = 4
+		      end
+		      player.collision = 3
+		      
+	    	end
+	    	player.y = player.y + 5
+	    end
+	  elseif map[i][1] == "lava" then
+	  	if
+	    (player.y + player.size * 1.5 > map[i][3] and player.y - player.size * 1.5 < map[i][3] + map[i][5])
+	    and
+	    (player.x + player.size > map[i][2] and player.x - player.size < map[i][4]+map[i][2])
+	    then
+	  		player.yV = player.yV * 0.45
+	  		player.yV = player.yV - 1
+	  		player.xV = player.xV * 0.5
+	  		screen.state = 2
+	  	end
+	  end
   end
 
   if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
@@ -68,13 +80,13 @@ function playerUpdate()
       screen.shake = 2
     end
   end
-  if love.keyboard.isDown("p") then
-    --
+  if love.keyboard.isDown("r") then
+    playerInitialise()
   end
 end
 
 function playerDraw()
   love.graphics.setColor(0.8, 0.8, 0.8)
   love.graphics.draw(player.mesh, player.x + screen.x + screen.shakeX, player.y + screen.y + screen.shakeY, nil--[[player.xV*0.7*math.pi/180]] ,player.size)
-  love.graphics.print("\n\n"..player.collision, 20)
+  love.graphics.print("\n\n"..player.collision, 40)
 end
