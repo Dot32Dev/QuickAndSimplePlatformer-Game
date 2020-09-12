@@ -1,7 +1,8 @@
 function mapInitialise()
  map = {
-   {"ground", 0, 450, 800, 150},
-   {"ground", 500, 350, 800, 250}
+   {"ground", 0, 450, 500, 150},
+   {"ground", 500, 350, 300, 250},
+   {"ground", 0, 250, 300, 100}
  }
 end
 

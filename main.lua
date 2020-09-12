@@ -6,7 +6,6 @@ function love.load()
   require("player")
   introInitialise("Games")
   mapInitialise()
-  map.alpha = 1
   playerInitialise()
 
   screen = {}
@@ -31,6 +30,11 @@ function love.update(dt)
   end
   if intro.timer >  1.5 then
     playerUpdate()
+  end
+
+  map.alpha = 1
+  if love.keyboard.isDown("p") and love.keyboard.isDown("q") then 
+  	map.alpha = 0.5
   end
 end
 
