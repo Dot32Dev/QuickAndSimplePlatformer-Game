@@ -37,9 +37,9 @@ function playerUpdate()
 	      player.yV = -player.yV*0.3
 	      
 	      if player.y < map[i][2] then 
-	      	player.collision = 2
-	      else
 	      	player.collision = -1
+	      else
+	      	player.collision = 2
 	      end
     	end
     	player.y = player.y - 5
