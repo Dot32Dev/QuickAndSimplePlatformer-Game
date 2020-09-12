@@ -36,11 +36,11 @@ function playerUpdate()
 	      player.y = player.y - player.yV
 	      player.yV = -player.yV*0.3
 	      
-	      if player.y < map[i][2] then 
-	      	player.collision = -1
-	      else
+	      --if player.y < map[i][2] then 
 	      	player.collision = 2
-	      end
+	      --else
+	      	--player.collision = -1
+	      --end
     	end
     	player.y = player.y - 5
     	if (player.y - player.yV + player.size * 1.5 > map[i][3] and player.y - player.yV - player.size * 1.5 < map[i][3] + map[i][5]) then
