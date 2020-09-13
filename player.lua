@@ -1,12 +1,14 @@
 function playerInitialise()
   player = {}
-  player.x = 300
-  player.y = 80
+  player.x = 50
+  player.y = 420
   player.xV = 0
   player.yV = 0
+  player.balloon = 0
   player.size = 20
   player.collision = 0
-
+  player.canJump = true
+  player.cyoteTime = 5
 
   player.mesh = love.graphics.newMesh({
       {0, 0},       --middle
@@ -16,6 +18,11 @@ function playerInitialise()
       {-1, 1.5},    --bottom left
       {-1, -1.5}    --top left
     },"fan")
+
+  player.coins = 0
+  for i=1, #map.coins do
+  	map.coins[i][4] = "alive"
+  end
 end
 
 function playerUpdate()
@@ -23,6 +30,12 @@ function playerUpdate()
   player.x = player.x + player.xV
   player.yV = player.yV + 1
   player.y = player.y + player.yV
+  player.balloon = player.balloon + (0-player.balloon)*0.2
+  player.cyoteTime = player.cyoteTime - 1
+
+  if player.cyoteTime < 0 then 
+  	player.canJump = false
+  end
 
   player.collision = 0
   for i=1, #map do
@@ -34,8 +47,10 @@ function playerUpdate()
 	    then
 	      player.collision = 1
 	    	if (player.x - player.xV + player.size > map[i][2] and player.x - player.xV - player.size < map[i][4]+map[i][2]) then
-		      if player.yV > 0 then 
+		      if player.yV > 0 then
 		      	player.collision = 2
+		      	player.canJump = true
+		      	player.cyoteTime = 5
 		      else
 		      	player.collision = -1
 		      end
@@ -50,7 +65,7 @@ function playerUpdate()
 		      	player.collision = 4
 		      end
 		      player.collision = 3
-		      
+
 	    	end
 	    	player.y = player.y + 5
 	    end
@@ -68,25 +83,46 @@ function playerUpdate()
 	  end
   end
 
-  if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
-    player.xV = player.xV - 1.2
+  for i=1, #map.coins do
+  	if distanceBetween(player.x, player.y, map.coins[i][1], map.coins[i][2]) < 30 then 
+  		if map.coins[i][4] == "alive" then
+  			player.coins = player.coins + 1
+  			player.balloon = player.balloon + 5
+  			map.coins[i][4] = "dead"
+  		end
+  	end
   end
-  if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
-    player.xV = player.xV + 1.2
-  end
-  if love.keyboard.isDown("w") or love.keyboard.isDown("up")  then
-    if player.collision == 2 or player.collision == 4 then
-      player.yV = -15
-      screen.shake = 2
-    end
-  end
+
+	if screen.state == 1 then
+	  if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+	    player.xV = player.xV - 1.2
+	  end
+	  if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
+	    player.xV = player.xV + 1.2
+	  end
+	  if love.keyboard.isDown("w") or love.keyboard.isDown("up") or love.keyboard.isDown("space") then
+	    if player.canJump == true then --player.collision == 2 or player.collision == 4 then
+	      player.yV = -15
+	      screen.shake = 2
+	      player.canJump = false
+	    end
+	  end
+	end
   if love.keyboard.isDown("r") then
     playerInitialise()
+    screen.state = 1
   end
 end
 
 function playerDraw()
   love.graphics.setColor(0.8, 0.8, 0.8)
-  love.graphics.draw(player.mesh, player.x + screen.x + screen.shakeX, player.y + screen.y + screen.shakeY, nil--[[player.xV*0.7*math.pi/180]] ,player.size)
-  love.graphics.print("\n\n"..player.collision, 40)
+  love.graphics.draw(player.mesh, player.x + screen.x + screen.shakeX, player.y + screen.y + screen.shakeY, nil--[[player.xV*0.7*math.pi/180]] ,player.size + player.balloon)
+  if map.alpha < 1 then
+  	love.graphics.print("\n\nY= "..player.y, love.graphics.getWidth()/8, 50)
+  	love.graphics.print("\n\n\nX= "..player.x, love.graphics.getWidth()/8, 50)
+  end
+end
+
+function distanceBetween(x1, y1, x2, y2)
+  return math.sqrt((y2-y1)^2 + (x2-x1)^2)
 end
