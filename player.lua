@@ -4,15 +4,15 @@ function playerInitialise()
   player.y = 420
   player.xV = 0
   player.yV = 0
-  player.balloon = 0
+  player.balloon = 0 -- How inflated is the character? (this is edited when collecting coins)
   player.size = 20
   player.collision = 0
   player.canJump = true
-  player.cyoteTime = 5
+  player.cyoteTime = 5 -- how many frames can the player jump after leaving a platform?
   player.checkpoint = 1
 
   player.coins = 0
-  for i=1, #map.coins do
+  for i=1, #map.coins do -- loops through coins and gives them an "alive" tag
   	map.coins[i][4] = "alive"
   end
 
@@ -48,7 +48,7 @@ function playerUpdate()
 	end
 
   for i=player.checkpoint, #map.checkpoints do
-  	if player.x > map.checkpoints[i][1] and player.y > map.checkpoints[i][2] - 50 then 
+  	if player.x > map.checkpoints[i][1]-50 and player.y > map.checkpoints[i][2] - 50 then 
   		player.checkpoint = i
   	end
   end
