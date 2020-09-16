@@ -46,6 +46,13 @@ function playerUpdate()
 		player.y = player.y - player.yV
 		player.yV = -player.yV*0.3
 	end
+
+  for i=player.checkpoint, #map.checkpoints do
+  	if player.x > map.checkpoints[i][1] and player.y > map.checkpoints[i][2] - 50 then 
+  		player.checkpoint = i
+  	end
+  end
+
   for i=1, #map do
 	  if map[i][1] == "ground" then
 	    if

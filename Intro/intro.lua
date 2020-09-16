@@ -1,24 +1,33 @@
 function introInitialise(subtext)
- intro = {}
+  intro = {}
 
- intro.dot32 = {}
- intro.dot32.font = love.graphics.newFont("Intro/PT_Sans/PTSans-Bold.ttf", 100)
- intro.dot32.x = love.graphics.getWidth()/2
- intro.dot32.y = 0
- intro.dot32.yV = 0
+  intro.dot32 = {}
+  intro.dot32.font = love.graphics.newFont("Intro/PT_Sans/PTSans-Bold.ttf", 100)
+  intro.dot32.x = love.graphics.getWidth()/2
+  intro.dot32.y = 0
+  intro.dot32.yV = 0
 
- intro.sub = {}
- intro.sub.font = love.graphics.newFont("Intro/PT_Sans/PTSans-Regular.ttf", 45)
- intro.sub.text = subtext
- intro.sub.x = 0--love.graphics.getWidth()/2
- intro.sub.y = love.graphics.getHeight()/1.65
- intro.sub.xV = 0
+  intro.sub = {}
+  intro.sub.font = love.graphics.newFont("Intro/PT_Sans/PTSans-Regular.ttf", 45)
+  intro.sub.text = subtext
+  intro.sub.x = 0--love.graphics.getWidth()/2
+  intro.sub.y = love.graphics.getHeight()/1.65
+  intro.sub.xV = 0
 
- intro.timer = 0
- intro.time = 0.5
- intro.sustain = 0.2
- intro.phase = 1
- intro.ghost = 1
+  intro.timer = 0
+  intro.time = 0.5
+  intro.sustain = 0.2
+  intro.phase = 1
+  intro.ghost = 1
+
+  love.graphics.getBackgroundColour = love.graphics.getBackgroundColor
+  love.graphics.getColour       = love.graphics.getColor
+  love.graphics.getColourMask     = love.graphics.getColorMask
+  love.graphics.getColourMode     = love.graphics.getColorMode
+  love.graphics.setBackgroundColour = love.graphics.setBackgroundColor
+  love.graphics.setColour       = love.graphics.setColor
+  love.graphics.setColourMask     = love.graphics.setColorMask
+  love.graphics.setColourMode     = love.graphics.setColorMode
 end
 
 function introUpdate(dt)
@@ -65,4 +74,19 @@ function fuckBoolean(boolean)
   else
     return 0
   end
+end
+
+function HSL(h, s, l, a)
+  if s<=0 then return l,l,l,a end
+  h, s, l = h*6, s, l
+  local c = (1-math.abs(2*l-1))*s
+  local x = (1-math.abs(h%2-1))*c
+  local m,r,g,b = (l-.5*c), 0,0,0
+  if h < 1     then r,g,b = c,x,0
+  elseif h < 2 then r,g,b = x,c,0
+  elseif h < 3 then r,g,b = 0,c,x
+  elseif h < 4 then r,g,b = 0,x,c
+  elseif h < 5 then r,g,b = x,0,c
+  else              r,g,b = c,0,x
+  end return (r+m),(g+m),(b+m),a
 end
