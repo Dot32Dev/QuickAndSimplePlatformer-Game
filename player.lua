@@ -9,20 +9,21 @@ function playerInitialise()
   player.collision = 0
   player.canJump = true
   player.cyoteTime = 5
-
-  player.mesh = love.graphics.newMesh({
-      {0, 0},       --middle
-      {-1, -1.5},   --top left
-      {1, -1.5},    --top right
-      {1, 1.5},     --bottom right
-      {-1, 1.5},    --bottom left
-      {-1, -1.5}    --top left
-    },"fan")
+  player.checkpoint = 1
 
   player.coins = 0
   for i=1, #map.coins do
   	map.coins[i][4] = "alive"
   end
+
+  player.mesh = love.graphics.newMesh({
+    {0, 0},       --middle
+    {-1, -1.5},   --top left
+    {1, -1.5},    --top right
+    {1, 1.5},     --bottom right
+    {-1, 1.5},    --bottom left
+    {-1, -1.5}    --top left
+    },"fan")
 end
 
 function playerUpdate()
@@ -38,6 +39,13 @@ function playerUpdate()
   end
 
   player.collision = 0
+  if player.y > 600 - player.size * 1.5 then
+		player.collision = 2
+		player.canJump = true
+		player.cyoteTime = 5
+		player.y = player.y - player.yV
+		player.yV = -player.yV*0.3
+	end
   for i=1, #map do
 	  if map[i][1] == "ground" then
 	    if
@@ -88,6 +96,7 @@ function playerUpdate()
   		if map.coins[i][4] == "alive" then
   			player.coins = player.coins + 1
   			player.balloon = player.balloon + 5
+  			--screen.shake = 2
   			map.coins[i][4] = "dead"
   		end
   	end
@@ -109,7 +118,7 @@ function playerUpdate()
 	  end
 	end
   if love.keyboard.isDown("r") then
-    playerInitialise()
+    playerDie()
     screen.state = 1
   end
 end
@@ -125,4 +134,21 @@ end
 
 function distanceBetween(x1, y1, x2, y2)
   return math.sqrt((y2-y1)^2 + (x2-x1)^2)
+end
+
+function playerDie()
+	player.x = map.checkpoints[player.checkpoint][1]
+	player.y = map.checkpoints[player.checkpoint][2]
+	player.xV = 0
+  player.yV = 0
+  player.balloon = 0
+  player.size = 20
+  player.collision = 0
+  player.canJump = true
+  player.cyoteTime = 5
+
+  player.coins = 0
+  for i=1, #map.coins do
+  	map.coins[i][4] = "alive"
+  end
 end
