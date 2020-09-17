@@ -10,10 +10,12 @@ function playerInitialise()
   player.canJump = true
   player.cyoteTime = 5 -- how many frames can the player jump after leaving a platform?
   player.checkpoint = 1
+  player.coinCache = {}
 
   player.coins = 0
   for i=1, #map.coins do -- loops through coins and gives them an "alive" tag
   	map.coins[i][4] = "alive"
+  	player.coinCache[i] = "alive"
   end
 
   player.mesh = love.graphics.newMesh({
@@ -47,9 +49,12 @@ function playerUpdate()
 		player.yV = -player.yV*0.3
 	end
 
-  for i=player.checkpoint, #map.checkpoints do
+  for i=player.checkpoint+1, #map.checkpoints do
   	if player.x > map.checkpoints[i][1]-50 and player.y > map.checkpoints[i][2] - 50 then 
   		player.checkpoint = i
+  		for i=1, #map.coins do -- loops through coins and gives them an "alive" tag
+  			player.coinCache[i] = map.coins[i][4]
+  		end
   	end
   end
 
@@ -156,6 +161,9 @@ function playerDie()
 
   player.coins = 0
   for i=1, #map.coins do
-  	map.coins[i][4] = "alive"
+  	map.coins[i][4] = player.coinCache[i]
+  	if player.coinCache[i] == "dead" then 
+  		player.coins = player.coins + 1
+  	end
   end
 end

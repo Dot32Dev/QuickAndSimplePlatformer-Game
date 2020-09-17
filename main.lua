@@ -75,20 +75,6 @@ function love.update(dt)
   br, bg, bb, ba = HSL(gameColour.background[1]/360, gameColour.background[2]/100, gameColour.background[3]/100, 1)
   love.graphics.setBackgroundColour(br, bg, bb)
 
-  -- if player.x > 2980 and gamecolour > 155 then 
-  -- 	gamecolour = gamecolour + (154-gamecolour)*0.1
-  -- 	br, bg, bb, ba = HSL(gamecolour/360, 100/100, 17/100, 1)
-  -- 	fr, fg, fb, fa = HSL(gamecolour/360, 100/100, 34/100, 1)
-  -- 	love.graphics.setbackgroundColor(br, bg, bb)
-  -- end
-
-  -- if player.x < 2980 and gamecolour < 204 then 
-  -- 	gamecolour = gamecolour + (203-gamecolour)*0.5
-  -- 	br, bg, bb, ba = HSL(gamecolour/360, 100/100, 17/100, 1)
-  -- 	fr, fg, fb, fa = HSL(gamecolour/360, 100/100, 34/100, 1)
-  -- 	love.graphics.setbackgroundColor(br, bg, bb)
-  -- end
-
   if screen.state == 1 then 
   	screen.overlayAlpha = screen.overlayAlpha + (0-screen.overlayAlpha)*0.2
   elseif screen.state == 3 then
