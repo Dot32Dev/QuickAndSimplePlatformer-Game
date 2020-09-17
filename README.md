@@ -5,9 +5,10 @@ This parkour platformer is about momentum and speed, and the goal will be to get
 This project is currently still in development :>
 
 ### How to run:
-- Download and install the [Love2D graphics framework](https://love2d.org/) and then download this repository. 
-- Unzip the .zip and you should have a folder, entire it and zip all the contents of said folder.
-- Rename the game.zip into game.love and double click it to run. If all goes well, it should open as a game.
+- Make sure you have the [Love2D graphics framework](https://love2d.org/) installed
+- Download this repository
+- Unzip the .zip and you should have a folder, enter it and rezip all the *contents* of said folder (not the folder)
+- Rename the game.zip into game.love and double click it to run. If all has gone well, it should open as a game.
 
 ### Screenshots:
 ![screenshot1](https://cdn.discordapp.com/attachments/577832597686583310/756097600884834324/Screen_Shot_2020-09-17_at_6.13.56_pm.png)
