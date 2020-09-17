@@ -1,10 +1,10 @@
 # Quick-And-Simple-Platformer
-A "simple" platformer, inspired by my Q&amp;SP series from scratch. (https://scratch.mit.edu/projects/82253834/)
+A "simple" platformer, inspired by my (very old) Q&sp;SP series from scratch. (https://scratch.mit.edu/projects/82253834/)
 This parkour platformer is about momentum and speed, and the goal will be to get the best time. Collect coins and avoid lava.
 
 This project is currently still in development :>
 
-#### How to run
+#### How to run:
 - Download the [Love2D game framework](https://love2d.org/) and then download this repository. 
 - Unzip the .zip and you should have a folder, entire it and zip all the contents of said folder.
 - Rename the game.zip into game.love and double click it to run. If all goes well, it should open as a game.
