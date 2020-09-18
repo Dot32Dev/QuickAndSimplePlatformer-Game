@@ -77,7 +77,11 @@ function playerUpdate()
 		      player.y = player.y - player.yV
 		      player.yV = -player.yV*0.3
 	    	end
-	    	player.y = player.y - 5
+	    	if player.yV > 0 then 
+	    		player.y = player.y + 5
+	    	else
+	    		player.y = player.y - 5
+	    	end
 	    	if (player.y - player.yV + player.size * 1.5 > map[i][3] and player.y - player.yV - player.size * 1.5 < map[i][3] + map[i][5]) then
 		      player.x = player.x -player.xV
 		      player.xV = -player.xV*0.3
@@ -87,7 +91,11 @@ function playerUpdate()
 		      player.collision = 3
 
 	    	end
-	    	player.y = player.y + 5
+	    	if player.yV > 0 then 
+	    		player.y = player.y - 5
+	    	else
+	    		player.y = player.y + 5
+	    	end
 	    end
 	  elseif map[i][1] == "lava" then
 	  	if

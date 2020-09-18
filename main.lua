@@ -141,3 +141,7 @@ function love.draw()
   
   introDraw()
 end
+
+function love.mousepressed(x, y, button)
+	print(x + screen.x + screen.shakeX..", "..y + screen.y + screen.shakeY)
+end
