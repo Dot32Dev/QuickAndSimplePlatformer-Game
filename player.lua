@@ -11,6 +11,8 @@ function playerInitialise()
   player.cyoteTime = 5 -- how many frames can the player jump after leaving a platform?
   player.checkpoint = 1
   player.coinCache = {}
+  player.deaths = 0
+  player.deathWatch = 0
 
   player.coins = 0
   for i=1, #map.coins do -- loops through coins and gives them an "alive" tag
@@ -35,6 +37,7 @@ function playerUpdate()
   player.y = player.y + player.yV
   player.balloon = player.balloon + (0-player.balloon)*0.2
   player.cyoteTime = player.cyoteTime - 1
+  player.deathWatch = player.deathWatch + 1
 
   if player.cyoteTime < 0 then 
   	player.canJump = false
@@ -52,6 +55,7 @@ function playerUpdate()
   for i=player.checkpoint+1, #map.checkpoints do
   	if player.x > map.checkpoints[i][1]-50 and player.y > map.checkpoints[i][2] - 50 then 
   		player.checkpoint = i
+  		player.balloon = player.balloon + 10
   		for i=1, #map.coins do -- loops through coins and gives them an "alive" tag
   			player.coinCache[i] = map.coins[i][4]
   		end
@@ -118,6 +122,7 @@ function playerUpdate()
   			player.balloon = player.balloon + 5
   			--screen.shake = 2
   			map.coins[i][4] = "dead"
+  			--particleCall("coin")
   		end
   	end
   end
@@ -134,12 +139,16 @@ function playerUpdate()
 	      player.yV = -15
 	      screen.shake = 2
 	      player.canJump = false
+        --player.balloon = player.balloon + 5
+	      --particleCall("jump")
 	    end
 	  end
 	end
   if love.keyboard.isDown("r") then
-    playerDie()
-    screen.state = 1
+    if player.deathWatch > 20 then
+      playerDie()
+      screen.state = 1
+    end
   end
 end
 
@@ -166,6 +175,8 @@ function playerDie()
   player.collision = 0
   player.canJump = true
   player.cyoteTime = 5
+  player.deaths = player.deaths + 1
+  player.deathWatch = 0
 
   player.coins = 0
   for i=1, #map.coins do

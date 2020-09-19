@@ -39,7 +39,10 @@ function introUpdate(dt)
   intro.sub.x = intro.sub.x + intro.sub.xV/2
   intro.sub.xV = intro.sub.xV * 0.6
 
-  intro.timer = intro.timer + dt
+  if screen.state < 5 then
+    intro.timer = intro.timer + dt
+  end
+  
   if intro.timer > intro.time then
     intro.phase = 2
     love.graphics.setFont(screen.font)
@@ -89,4 +92,13 @@ function HSL(h, s, l, a)
   elseif h < 5 then r,g,b = x,0,c
   else              r,g,b = c,0,x
   end return (r+m),(g+m),(b+m),a
+end
+
+function love.keypressed(key)
+  if key == "f" and love.keyboard.isDown("lgui") and love.keyboard.isDown("lctrl") and operatingSystem == "OS X" then
+      love.window.setFullscreen(true)
+  end
+  if key == "f11" and operatingSystem == "Windows" then
+      love.window.setFullscreen(true)
+  end
 end

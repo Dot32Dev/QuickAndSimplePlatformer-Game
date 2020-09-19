@@ -6,6 +6,7 @@ function love.load()
   introInitialise("Games")
   mapInitialise()
   playerInitialise()
+  operatingSystem = love.system.getOS()
 
   gameColour = {}
   gameColour.foreground = {203, 100, 34}
@@ -22,11 +23,18 @@ function love.load()
   screen.shakeX = 0
   screen.shakeY = 0
   screen.shake = 0
+  screen.shakeYV = 0
   screen.state = 1
   screen.overlayAlpha = 0
-  screen.message = "WASD/Arrow keys to move\n\n[R] to reset player\n[ESC] to quit\n[CMD+F] to go fullscreen on Macos\n\n[?] to close"
   screen.msgTime = love.timer.getTime()
   screen.alertAlpha = 1
+  if operatingSystem == "OS X" then 
+    screen.message = "WASD/Arrow keys to move\n\n[R] to reset player\n[ESC] to quit\n[CTRL+CMD+F] to go fullscreen\n\n[?] to close"
+  elseif operatingSystem == "Windows" then 
+    screen.message = "WASD/Arrow keys to move\n\n[R] to reset player\n[ESC] to quit\n[F11] to go fullscreen\n\n[?] to close"
+  else
+    screen.message = "WASD/Arrow keys to move\n\n[R] to reset player\n[ESC] to quit\n\n[?] to close"
+  end
 end
 
 function love.update(dt)
@@ -40,12 +48,16 @@ function love.update(dt)
   if screen.x > 0 then 
   	screen.x = 0--screen.x/5
   end
+  if screen.x < -7900 then 
+    screen.x = -7900--screen.x/5
+  end
 
   if intro.timer >  1 then
     screen.y = screen.y + (love.graphics.getHeight()/2-300-screen.y)*0.1
   end
   if intro.timer >  1.5 then
     playerUpdate()
+    --particleUpdate()
   end
 
   map.alpha = 1
@@ -54,14 +66,19 @@ function love.update(dt)
   		map.alpha = 0.5
   	end
   	if love.keyboard.isDown("l") then 
-  		player.checkpoint = 3
+  		player.checkpoint = 5
   		playerDie()
+      player.deaths = player.deaths - 1
   		screen.state = 1
   	end
   end
 
   if player.x > 52 then 
   	screen.alertAlpha = screen.alertAlpha + (0-screen.alertAlpha)*0.2
+  end
+
+  if player.checkpoint == 5 then 
+    screen.state = 5
   end
 
   gameColour.foreground[1] = gameColour.foreground[1] + (map.checkpoints[player.checkpoint][3][1] - gameColour.foreground[1])*0.1
@@ -90,9 +107,12 @@ function love.update(dt)
   if screen.state == 0 and screen.overlayAlpha > 0.499 then 
   	love.event.quit()
   end
-  if love.keyboard.isDown("f") and love.keyboard.isDown("lgui") then
-    	love.window.setFullscreen(true)
-  end
+  -- if love.keyboard.isDown("f") and love.keyboard.isDown("lgui") and love.keyboard.isDown("lctrl") and operatingSystem == "OS X" then
+  --   	love.window.setFullscreen(true)
+  -- end
+  -- if love.keyboard.isDown("f11") and operatingSystem == "Windows" then
+  --     love.window.setFullscreen(true)
+  -- end
   if love.keyboard.isDown("/") and screen.msgTime - love.timer.getTime() < -0.3 then
     	if screen.state == 1 then
     		screen.state = 3
@@ -115,7 +135,7 @@ function love.draw()
 	love.graphics.setFont(screen.font)
 
 	love.graphics.setColour(br, bg, bb, screen.alertAlpha)
-	love.graphics.print("Press [Q] to view all controls", 40, screen.y + screen.shakeY + 520 )-- (love.graphics.getHeight()-600)/2)
+	love.graphics.print("Press [?] to view all controls", 40, screen.y + screen.shakeY + 520 )-- (love.graphics.getHeight()-600)/2)
 	
 	love.graphics.setColour(0, 0, 0, screen.overlayAlpha)
 	love.graphics.rectangle("fill", fuckBoolean(screen.state == 3)*love.graphics.getWidth()/2-screen.font:getWidth(screen.message)/2-50, 0, love.graphics.getWidth() - (fuckBoolean(screen.state == 3)*love.graphics.getWidth()/2-screen.font:getWidth(screen.message)/2-50)*2, love.graphics.getHeight())
@@ -134,14 +154,16 @@ function love.draw()
 		love.graphics.print("quiting...", love.graphics.getWidth()/2-screen.font:getWidth("quiting...")/2, screen.y + screen.shakeY + 200 - (love.graphics.getHeight()-600)/2)
 	end
 
+  if screen.state == 5 then 
+    love.graphics.setColour(0.9, 0.9, 0.9, screen.overlayAlpha*2)
+    endScreen = "Well done! You completed the game!\n\nYou collected "..player.coins.." coins.\nYou took "..math.floor(intro.timer-1.5) .." seconds.\nYou died "..player.deaths.." times.\n\nIf you would like to restart to \ntry and get a better score, press [R].\n\nI hope you enjoyed playing!"
+    love.graphics.print(endScreen, love.graphics.getWidth()/2-screen.font:getWidth(endScreen)/2, screen.y + screen.shakeY + 100 - (love.graphics.getHeight()-600)/2)
+  end
+
 	if screen.state == 3 then 
 		love.graphics.setColour(0.9, 0.9, 0.9, screen.overlayAlpha*5)
 		love.graphics.print(screen.message, love.graphics.getWidth()/2-screen.font:getWidth(screen.message)/2, screen.y + screen.shakeY + 200 - (love.graphics.getHeight()-600)/2)
   end
   
   introDraw()
-end
-
-function love.mousepressed(x, y, button)
-	print(x + screen.x + screen.shakeX..", "..y + screen.y + screen.shakeY)
 end

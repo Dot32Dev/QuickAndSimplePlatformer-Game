@@ -12,14 +12,21 @@ function mapInitialise()
     {"ground", 3000, 550, 350, 50},
     {"ground", 3350, 450, 50, 150},
     {"ground", 3400, 350, 50, 250},
-    {"ground", 3150, 250, 50, 150},--lava sheild
-    {"ground", 3200, 250, 50, 50},--block
+    {"ground", 3150, 300, 50, 100},--lava sheild
+    {"ground", 3150, 250, 100, 50},--block
     {"ground", 3400, 150, 50, 50},
     {"ground", 3650, 150, 100, 450},
     {"ground", 4300, 350, 100, 250},
     {"ground", 4900, 350, 300, 250},
     {"ground", 3900, 300, 50, 50},
     {"ground", 4600, 400, 50, 50},
+    {"ground", 5250, 350, 350, 250},
+    {"ground", 5950, 350, 150, 50},
+    {"ground", 6450, 300, 150, 50},
+    {"ground", 6950, 400, 150, 50},
+    {"ground", 7400, 350, 150, 50},
+    {"ground", 7900, 350, 800, 250},
+    {"ground", 8700-20, -500, 1100, 1100},--edge bar 
     {"lava", 3100, 0, 50, 400},--lava pillar
     {"lava", 800, 450, 400, 150},--lava
     {"lava", 1500, 550, 300, 50},
@@ -27,6 +34,8 @@ function mapInitialise()
     {"lava", 3450, 450, 200, 150},
     {"lava", 3750, 450, 550, 150},
     {"lava", 4400, 450, 500, 150},
+    {"lava", 5200, 300, 50, 300},
+    {"lava", 5600, 550, 2300, 50},
     {"lava", 2300, 550, 700, 50}
   }
   
@@ -61,7 +70,8 @@ function mapInitialise()
   	{50, 420, {203, 100, 34},{203, 100, 17}},
   	{3050,520, {153, 100, 34},{153, 100, 17}},
   	{3700,120, {213, 100, 34},{213, 100, 17}},
-  	{4971,320, {290, 100, 34},{290, 100, 17}}
+  	{4971,320, {290, 100, 34},{290, 100, 17}},
+    {8500,320, {153, 100, 34},{153, 100, 17}}
   }
 end
 
@@ -91,6 +101,7 @@ function mapDraw()
   	love.graphics.rectangle("fill", map.checkpoints[i][1] + screen.x + screen.shakeX + 2.5 - 10, map.checkpoints[i][2] + screen.y + screen.shakeY - 20, 25, 20)
   end
 
+  --particleDraw() -- The draw call for the particle system
   playerDraw() -- The draw call for the player
 
   for i=1, #map do
