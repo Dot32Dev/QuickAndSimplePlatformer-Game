@@ -1,6 +1,6 @@
 # Quick-And-Simple-Platformer
 A "simple" platformer, inspired by my (very old) Q&SP series from scratch. (https://scratch.mit.edu/projects/82253834/)
-This parkour platformer is about momentum and speed, and the goal will be to get the best time. Collect coins and avoid lava.
+This new parkour platformer is about momentum and speed, and the goal is to get the best time, collect coins and avoid lava.
 
 This project is currently still in development :>
 
