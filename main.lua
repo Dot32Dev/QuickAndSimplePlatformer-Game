@@ -68,7 +68,7 @@ function love.update(dt)
   	if love.keyboard.isDown("l") then 
   		player.checkpoint = 5
   		playerDie()
-      player.deaths = player.deaths - 1
+      player.deaths = player.deaths - 1 
   		screen.state = 1
   	end
   end
@@ -156,7 +156,7 @@ function love.draw()
 
   if screen.state == 5 then 
     love.graphics.setColour(0.9, 0.9, 0.9, screen.overlayAlpha*2)
-    endScreen = "Well done! You completed the game!\n\nYou collected "..player.coins.." coins.\nYou took "..math.floor(intro.timer-1.5) .." seconds.\nYou died "..player.deaths.." times.\n\nIf you would like to restart to \ntry and get a better score, press [R].\n\nI hope you enjoyed playing!"
+    endScreen = "Well done! You completed my game!\n\nYou collected "..player.coins.." coins.\nYou took "..math.floor(intro.timer-1.5) .." seconds.\nYou died "..player.deaths.." times.\n\nI hope you enjoyed playing!"
     love.graphics.print(endScreen, love.graphics.getWidth()/2-screen.font:getWidth(endScreen)/2, screen.y + screen.shakeY + 100 - (love.graphics.getHeight()-600)/2)
   end
 
@@ -167,3 +167,25 @@ function love.draw()
   
   introDraw()
 end
+
+-- function file()
+--   if love.filesystem.getInfo("bestCoins.txt") == nil then
+--     love.filesystem.write("bestCoins.txt",player.coins)
+--   end
+--   bestCoins = love.filesystem.read("bestCoins.txt")
+--   thonky = tonumber(bestCoins)
+--   if thonky < player.coins then
+--     love.filesystem.write("bestCoins.txt",player.coins)
+--     highScore = player.coins
+--   end
+
+--   if love.filesystem.getInfo("bestTime.txt") == nil then
+--     love.filesystem.write("bestTime.txt",intro.timer-1.5)
+--   end
+--   bestCoins = love.filesystem.read("bestCoins.txt")
+--   thonky = tonumber(bestCoins)
+--   if thonky < player.coins then
+--     love.filesystem.write("bestCoins.txt",player.coins)
+--     highScore = player.coins
+--   end
+-- end
