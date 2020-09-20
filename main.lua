@@ -66,10 +66,16 @@ function love.update(dt)
   		map.alpha = 0.5
   	end
   	if love.keyboard.isDown("l") then 
-  		player.checkpoint = 5
+  		player.checkpoint = 1
   		playerDie()
       player.deaths = player.deaths - 1 
   		screen.state = 1
+      player.coins = 0
+      for i=1, #map.coins do -- loops through coins and gives them an "alive" tag
+        map.coins[i][4] = "alive"
+        player.coinCache[i] = "alive"
+      end
+      intro.timer = 1.5
   	end
   end
 
@@ -129,6 +135,9 @@ function love.draw()
 	love.graphics.setColour(fr, fg, fb, map.alpha)
 	love.graphics.print("Quick and Simple Platformer", 40, screen.y + screen.shakeY + 20 - (love.graphics.getHeight()-600)/2)
 
+  love.graphics.setColour(br, bg, bb, map.alpha)
+  love.graphics.print(math.floor(intro.timer-1.5), love.graphics.getWidth()-80, screen.y + screen.shakeY + 520 - (love.graphics.getHeight()-600)/2)
+
 	love.graphics.setFont(screen.megaFont)
 	love.graphics.setColour(1, 221/255, 0, map.alpha)	
 	love.graphics.print(player.coins.."/"..#map.coins.." coins", love.graphics.getWidth()-130, screen.y + screen.shakeY + 20 - (love.graphics.getHeight()-600)/2, nil, 0.5, 0.5 + player.balloon*0.03)
@@ -156,7 +165,7 @@ function love.draw()
 
   if screen.state == 5 then 
     love.graphics.setColour(0.9, 0.9, 0.9, screen.overlayAlpha*2)
-    endScreen = "Well done! You completed my game!\n\nYou collected "..player.coins.." coins.\nYou took "..math.floor(intro.timer-1.5) .." seconds.\nYou died "..player.deaths.." times.\n\nI hope you enjoyed playing!"
+    endScreen = "Well done! You completed my game!\n\nYou collected "..player.coins.." coins.\nYou took "..math.floor(intro.timer*10)/10-1.5 .." seconds.\nYou died "..player.deaths.." times.\n\nPress [P+L] to replay, try and  get a better time!\n\nI hope you enjoyed playing!"
     love.graphics.print(endScreen, love.graphics.getWidth()/2-screen.font:getWidth(endScreen)/2, screen.y + screen.shakeY + 100 - (love.graphics.getHeight()-600)/2)
   end
 
