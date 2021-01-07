@@ -2,8 +2,6 @@
 A "simple" platformer, inspired by my (very old) Q&SP series from scratch. (https://scratch.mit.edu/projects/82253834/)
 This new parkour platformer is about momentum and speed, and the goal is to get the best time, collect coins and avoid lava.
 
-This project is currently still in development :>
-
 ### How to run:
 - Make sure you have the [Love2D Lua framework](https://love2d.org/) installed
 - Download this repository
