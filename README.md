@@ -3,6 +3,7 @@ A "simple" platformer, inspired by my (very old) Q&SP series from scratch. (http
 This new parkour platformer is about momentum and speed, and the goal is to get the best time, collect coins and avoid lava.
 
 ### How to run:
+Download an exe or .love from the [releases](https://github.com/Dot32IsCool/QuickAndSimplePlatformer-Game/releases) page, or alternatively:
 - Make sure you have the [Love2D Lua framework](https://love2d.org/) installed
 - Download this repository
 - Unzip the .zip and you should have a folder, enter it and rezip all the *contents* of said folder (not the folder)
